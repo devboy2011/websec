@@ -3,6 +3,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
+const authRoutes = require('./routes/auth.routes')
+const adminAuthRoutes = require('./routes/admin-auth.routes')
+
 const app = express()
 
 // init middlewares
@@ -15,6 +18,9 @@ app.use(cors())
 // init db
 require('./dbs/init.mongodb')
 
+// define routes
+app.use('/api/auth', authRoutes)
+app.use('/api/admin/auth', adminAuthRoutes)
 
 // handle errors
 app.use((req, res, next) => {
