@@ -5,6 +5,9 @@ const cors = require('cors')
 
 const authRoutes = require('./routes/auth.routes')
 const adminAuthRoutes = require('./routes/admin-auth.routes')
+const userRoutes = require('./routes/user.routes')
+const businessRoutes = require('./routes/business.routes')
+const adminBusinessRoutes = require('./routes/admin-business.routes')
 
 const app = express()
 
@@ -21,6 +24,9 @@ require('./dbs/init.mongodb')
 // define routes
 app.use('/api/auth', authRoutes)
 app.use('/api/admin/auth', adminAuthRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/business', businessRoutes)
+app.use('/api/admin/business', adminBusinessRoutes)
 
 // handle errors
 app.use((req, res, next) => {
