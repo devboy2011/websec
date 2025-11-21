@@ -7,12 +7,12 @@ const authorizeRoles = require('../middlewares/authRolesMiddleware');
 
 router.get('/', 
     authMiddleware, 
-    authorizeRoles('MANAGER'), 
+    authorizeRoles('ADMIN'), 
     businessController.getBusiness);
     
 router.post('/', 
     authMiddleware, 
-    authorizeRoles('MANAGER'), 
+    authorizeRoles('ADMIN'), 
     businessController.doBusiness);
 
 module.exports = router;

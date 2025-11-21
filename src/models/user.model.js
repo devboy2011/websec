@@ -31,8 +31,10 @@ const userSchema = new mongoose.Schema(
         'https://images.tkbcdn.com/2/608/332/ts/ds/0f/dd/22/af053e21394812a4e0226b6e843a2f57.png',
     },
     roles: {
-      type: Array,
+      type: [String],
       default: ['CUSTOMER'],
+      ennum: ['CUSTOMER', 'SUPPORT', 'ADMIN'],
+      
     },
     dob: {
       type: Date,

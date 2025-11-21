@@ -8,6 +8,7 @@ const adminAuthRoutes = require('./routes/admin-auth.routes')
 const userRoutes = require('./routes/user.routes')
 const businessRoutes = require('./routes/business.routes')
 const adminBusinessRoutes = require('./routes/admin-business.routes')
+const managerBusinessRoutes = require('./routes/manager-bussiness.routes')
 
 const app = express()
 
@@ -27,6 +28,7 @@ app.use('/api/admin/auth', adminAuthRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/business', businessRoutes)
 app.use('/api/admin/business', adminBusinessRoutes)
+app.use('/api/manager', managerBusinessRoutes)
 
 // handle errors
 app.use((req, res, next) => {

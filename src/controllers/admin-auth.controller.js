@@ -40,44 +40,8 @@ exports.login = async (req, res) => {
       }
     })
     
-  } catch (err) {
-    if (res.statusCode !== 401) 
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.createManager = async (req, res) => {
-  try {
-    const {username, password} = req.body;
-
-    // Kiểm tra trùng email
-    const existingUser = await Admin.findOne({username});
-    
-    if (existingUser) {
-      return res.status(409).json({ error: 'User already exists' });
-    }
-
-    // Băm mật khẩu
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Tạo user mới
-    const newAdmin = new Admin({
-      username,
-      password: hashedPassword,
-      roles: ['MANAGER'],
-    });
-
-    await newAdmin.save();
-
-    res.status(201).json({
-      message: 'User registered successfully',
-      user: {
-        username: newAdmin.username,
-        roles: newAdmin.roles,
-        status: newAdmin.status,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal error' });
   }
 };
