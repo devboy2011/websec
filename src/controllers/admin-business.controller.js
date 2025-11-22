@@ -98,7 +98,7 @@ exports.getAllAdmins = async (req, res) => {
         const adminId = req.user.userId;
         
         const admins = await Admin.find({
-            roles: { $in: ['ADMIN']}
+            roles: { $in: ['ADMIN', 'STAFF']}
         }, '-password'); 
         
         const log = new Log({
