@@ -3,7 +3,7 @@ const router = express.Router();
 const adminBusinessController = require('../controllers/admin-business.controller');
 
 const authMiddleware = require('../middlewares/authMiddleware');    
-const authorizeRoles = require('../middlewares/authRolesMiddleware');
+const {authorizeRoles} = require('../middlewares/authRolesMiddleware');
 
 router.post('/add-admin', 
     authMiddleware,

@@ -79,6 +79,7 @@ exports.login = async (req, res) => {
         avatar: existingUser.avatar,
         name: existingUser.name,
         email: existingUser.email,
+        roles: existingUser.roles,
       },
     })
   } 

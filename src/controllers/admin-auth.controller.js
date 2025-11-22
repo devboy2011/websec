@@ -37,6 +37,7 @@ exports.login = async (req, res) => {
       body: {
         username: existingUser.username,
         avatar: existingUser.avatar,
+        roles: existingUser.roles,
       }
     })
     

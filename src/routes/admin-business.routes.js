@@ -3,7 +3,7 @@ const router = express.Router();
 const businessController = require('../controllers/business.controller');
 
 const authMiddleware = require('../middlewares/authMiddleware');    
-const authorizeRoles = require('../middlewares/authRolesMiddleware');
+const {authorizeRoles} = require('../middlewares/authRolesMiddleware');
 
 router.get('/', 
     authMiddleware, 
