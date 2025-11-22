@@ -36,4 +36,10 @@ router.put('/revoke-admin/:adminId',
     adminBusinessController.revokeAdminRole
 );
 
+router.get('/logs',
+    authMiddleware,
+    authorizeRoles(['MANAGER']),
+    adminBusinessController.getLogs
+);
+
 module.exports = router;

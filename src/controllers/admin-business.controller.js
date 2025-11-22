@@ -102,7 +102,7 @@ exports.getAllAdmins = async (req, res) => {
         }, '-password'); 
         
         const log = new Log({
-            action: 'CREATE',
+            action: 'READ',
             entity: 'Admin',
             userId: adminId,
             content: `Retrieved all admins`,
@@ -126,68 +126,88 @@ exports.getAllAdmins = async (req, res) => {
 }
 
 exports.grantAdminRole = async (req, res) => {
-    try{
-        const { adminId } = req.params;
-        const managerId = req.user.userId;
-        
-        const admin = await Admin.findById(adminId);
-        
-        if (!admin) {
-            return res.status(404).json({ error: 'Admin not found' });
-        }
-        
-        if (admin.roles.includes('ADMIN')) {
-            return res.status(400).json({ error: 'Admin already has ADMIN role' });
-        }
-        
-        admin.roles.push('ADMIN');
-        
-        const log = new Log({
-            action: 'CREATE',
-            entity: 'Admin',
-            userId: managerId,
-            content: `Granted ADMIN role to user: ${admin.username}`,
-        })
-        
-        await log.save();
-        await admin.save();
-
-        res.status(200).json({ message: 'Admin role granted successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+  try{
+    const { adminId } = req.params;
+    const managerId = req.user.userId;
+    
+    const admin = await Admin.findById(adminId);
+    
+    if (!admin) {
+        return res.status(404).json({ error: 'Admin not found' });
     }
+    
+    if (admin.roles.includes('ADMIN')) {
+        return res.status(400).json({ error: 'Admin already has ADMIN role' });
+    }
+    
+    admin.roles.push('ADMIN');
+    
+    const log = new Log({
+        action: 'UPDATE',
+        entity: 'Admin',
+        userId: managerId,
+        content: `Granted ADMIN role to user: ${admin.username}`,
+    })
+    
+    await log.save();
+    await admin.save();
+
+    res.status(200).json({ message: 'Admin role granted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 }
 
 exports.revokeAdminRole = async (req, res) => {
-    try{
-        const { adminId } = req.params;
-        const managerId = req.user.userId;
-        
-        const admin = await Admin.findById(adminId);
-        
-        if (!admin) {
-            return res.status(404).json({ error: 'Admin not found' });
-        }
-        
-        if (!admin.roles.includes('ADMIN')) {
-            return res.status(400).json({ error: 'Admin does not have ADMIN role' });
-        }
-        
-        admin.roles = admin.roles.filter(role => role !== 'ADMIN');
-        
-        const log = new Log({
-            action: 'CREATE',
-            entity: 'Admin',
-            userId: managerId,
-            content: `Revoked ADMIN role from user: ${admin.username}`,
-        })
-        await log.save();
-        await admin.save();
-
-        res.status(200).json({ message: 'Admin role revoked successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+  try{
+    const { adminId } = req.params;
+    const managerId = req.user.userId;
+    
+    const admin = await Admin.findById(adminId);
+    
+    if (!admin) {
+        return res.status(404).json({ error: 'Admin not found' });
     }
+    
+    if (!admin.roles.includes('ADMIN')) {
+        return res.status(400).json({ error: 'Admin does not have ADMIN role' });
+    }
+    
+    admin.roles = admin.roles.filter(role => role !== 'ADMIN');
+    
+    const log = new Log({
+        action: 'UPDATE',
+        entity: 'Admin',
+        userId: managerId,
+        content: `Revoked ADMIN role from user: ${admin.username}`,
+    })
+    await log.save();
+    await admin.save();
+
+    res.status(200).json({ message: 'Admin role revoked successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+exports.getLogs = async (req, res) => {
+  try {
+    const logs = await Log.find().sort({ createdAt: -1 }).limit(100);
+    
+    if (!logs){
+      return res.status(200).json({ 
+        message: 'No logs found' 
+      });
+    }
+    
+    res.status(200).json({ 
+      message: 'Logs retrieved successfully',
+      body: logs 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 }

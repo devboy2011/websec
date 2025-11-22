@@ -29,7 +29,7 @@ router.post('/product',
 
 router.get('/order',
     authMiddleware, 
-    hasAnyRoles(['CUSTOMER', 'ADMIN']),
+    hasAnyRoles(['CUSTOMER', 'ADMIN', 'STAFF']),
     businessController.getBusiness
 )
 
