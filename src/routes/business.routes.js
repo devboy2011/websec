@@ -7,47 +7,47 @@ const {authorizeRoles, hasAnyRoles, hasRole} = require('../middlewares/authRoles
 
 router.get('/', 
     authMiddleware, 
-    authorizeRoles('CUSTOMER'), 
+    authorizeRoles(['CUSTOMER']), 
     businessController.getBusiness);
     
 router.post('/', 
     authMiddleware, 
-    authorizeRoles('CUSTOMER'), 
+    authorizeRoles(['CUSTOMER']), 
     businessController.doBusiness);
     
 router.get('/product',
     authMiddleware, 
-    authorizeRoles('CUSTOMER'),
+    authorizeRoles(['CUSTOMER']),
     businessController.getBusiness
 )
 
 router.post('/product',
     authMiddleware, 
-    authorizeRoles('STAFF'),
+    authorizeRoles(['STAFF']),
     businessController.doBusiness
 )
 
 router.get('/order',
     authMiddleware, 
-    hasAnyRoles('CUSTOMER', 'ADMIN'),
+    hasAnyRoles(['CUSTOMER', 'ADMIN']),
     businessController.getBusiness
 )
 
 router.post('/order',
     authMiddleware, 
-    authorizeRoles('STAFF'),
+    authorizeRoles(['STAFF']),
     businessController.doBusiness
 )
 
 router.get('/basement',
     authMiddleware, 
-    hasAnyRoles('STAFF', 'ADMIN'),
+    hasAnyRoles(['STAFF', 'ADMIN']),
     businessController.getBusiness
 )
 
 router.post('/basement',
     authMiddleware, 
-    hasRole('ADMIN'),
+    hasRole(['ADMIN']),
     businessController.doBusiness
 )
 
